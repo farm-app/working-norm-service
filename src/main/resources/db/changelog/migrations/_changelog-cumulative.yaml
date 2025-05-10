@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Andrey Antonov
+      comment: Initial scheme
+      changes:
+        - sqlFile:
+            path: 1-initial-scheme.sql
+            relativeToChangelogFile: true

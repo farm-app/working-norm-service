@@ -1,0 +1,45 @@
+package ru.rtln.workingnormservice.controller;
+
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.rtln.workingnormservice.dto.AnalyticDetailsDto;
+import ru.rtln.workingnormservice.dto.StatisticReportDto;
+import ru.rtln.workingnormservice.dto.filter.ReportFilter;
+import ru.rtln.workingnormservice.service.ReportService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/reports")
+@RequiredArgsConstructor
+@Tag(name = "Products", description = "Products API")
+public class ReportController {
+
+    private final ReportService reportService;
+    
+    @GetMapping("/statistic")
+    @Operation(summary = "Получение статистического отчёта")
+    public List<StatisticReportDto> getReport(@Validated ReportFilter reportFilter) {
+        return reportService.getStatisticReportByFilter(reportFilter);
+    }
+
+    /**
+     * Осуществляет получение аналитического отчета по фильтру.
+     * Доступ к получению отчета имеет только владелец фермы.
+     *
+     * @param reportFilter фильтр для получения аналитического отчета
+     * @return аналитический отчет
+     */
+    @GetMapping("/analytics")
+    @Operation(summary = "Получение аналитики")
+    public List<AnalyticDetailsDto> getAnalytics(@Validated ReportFilter reportFilter) {
+        return reportService.getAnalyticsReportByFilter(reportFilter);
+    }
+
+}

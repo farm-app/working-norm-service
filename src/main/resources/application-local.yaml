@@ -1,0 +1,61 @@
+server:
+  servlet:
+    context-path: /api/working-norm
+  port: 9105
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-service:8761/eureka/
+    enabled: false
+
+internal:
+  api-key-header-name: Api-key
+  service:
+    auth:
+      url: http://auth-service:9101
+      secure-key: ES8p3QFFyPEdpnAdYCdDMPGxm4epBMWdEDLbNB8eSBHjxQmNsk2jjz7ATK2wUCEf
+    user:
+      url: http://user-service:9103/api/user
+      secure-key: ES8p3QFFyPEdpnAdYCdDMPGxm4epBMWdEDLbNB8eSBHjxQmNsk2jjz7ATK2wUCEf
+    product:
+      url: http://product-service:9104/api/product
+      secure-key: ES8p3QFFyPEdpnAdYCdDMPGxm4epBMWdEDLbNB8eSBHjxQmNsk2jjz7ATK2wUCEf
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://postgres:5432/working-norm
+    username: admin
+    password: aJ3aN5%HJPIG
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  liquibase:
+    change-log: classpath:db/changelog/changelog.yaml
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 10MB
+  jackson:
+    default-property-inclusion: non_null
+    mapper:
+      accept-case-insensitive-enums: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  cloud:
+    config:
+      enabled: false
+  scheduled:
+    cron:
+      expression:
+        every_minute: "0 * * * * ?"
